@@ -1,0 +1,934 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Louis René Salla — IT Infrastructure & VoIP Engineer</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Syne:wght@400;700;800&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0a0a0f;
+    --surface: #12121a;
+    --surface2: #1a1a28;
+    --accent: #00e5a0;
+    --accent2: #7b5ea7;
+    --accent3: #e55c00;
+    --text: #f0ede8;
+    --muted: #7a7a9a;
+    --border: rgba(255,255,255,0.07);
+  }
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Syne', sans-serif;
+    overflow-x: hidden;
+    cursor: none;
+  }
+
+  /* Custom cursor */
+  .cursor {
+    position: fixed;
+    width: 12px; height: 12px;
+    background: var(--accent);
+    border-radius: 50%;
+    pointer-events: none;
+    z-index: 9999;
+    transform: translate(-50%, -50%);
+    transition: transform 0.1s, background 0.2s;
+  }
+  .cursor-ring {
+    position: fixed;
+    width: 36px; height: 36px;
+    border: 1.5px solid var(--accent);
+    border-radius: 50%;
+    pointer-events: none;
+    z-index: 9998;
+    transform: translate(-50%, -50%);
+    transition: transform 0.18s ease, border-color 0.2s;
+    opacity: 0.5;
+  }
+
+  /* Nav */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0;
+    z-index: 100;
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 1.25rem 3rem;
+    background: rgba(10,10,15,0.85);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--border);
+  }
+  .nav-logo {
+    font-family: 'Space Mono', monospace;
+    font-size: 0.85rem;
+    color: var(--accent);
+    letter-spacing: 0.1em;
+    text-decoration: none;
+  }
+  .nav-links {
+    display: flex; gap: 2rem; list-style: none;
+  }
+  .nav-links a {
+    font-size: 0.8rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--muted);
+    text-decoration: none;
+    transition: color 0.2s;
+  }
+  .nav-links a:hover { color: var(--accent); }
+
+  /* Hero */
+  .hero {
+    min-height: 100vh;
+    display: flex; align-items: center;
+    padding: 8rem 3rem 4rem;
+    position: relative;
+    overflow: hidden;
+  }
+  .hero-bg {
+    position: absolute; inset: 0;
+    background: radial-gradient(ellipse 80% 60% at 60% 40%, rgba(0,229,160,0.06) 0%, transparent 70%),
+                radial-gradient(ellipse 60% 50% at 20% 80%, rgba(123,94,167,0.07) 0%, transparent 60%);
+  }
+  .hero-grid {
+    position: absolute; inset: 0;
+    background-image: linear-gradient(var(--border) 1px, transparent 1px),
+                      linear-gradient(90deg, var(--border) 1px, transparent 1px);
+    background-size: 60px 60px;
+    mask-image: radial-gradient(ellipse 70% 80% at 50% 50%, black, transparent);
+  }
+  .hero-content { position: relative; max-width: 900px; }
+
+  .hero-label {
+    font-family: 'Space Mono', monospace;
+    font-size: 0.75rem;
+    color: var(--accent);
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    margin-bottom: 1.5rem;
+    display: flex; align-items: center; gap: 0.75rem;
+  }
+  .hero-label::before {
+    content: '';
+    display: inline-block;
+    width: 32px; height: 1px;
+    background: var(--accent);
+  }
+
+  h1 {
+    font-size: clamp(3rem, 7vw, 6.5rem);
+    font-weight: 800;
+    line-height: 1.0;
+    letter-spacing: -0.02em;
+    margin-bottom: 1.5rem;
+  }
+  h1 .name-accent { color: var(--accent); }
+  h1 .name-dim { color: var(--muted); font-weight: 400; }
+
+  .hero-tagline {
+    font-size: 1.1rem;
+    color: var(--muted);
+    max-width: 520px;
+    line-height: 1.7;
+    margin-bottom: 2.5rem;
+  }
+
+  .hero-tags {
+    display: flex; flex-wrap: wrap; gap: 0.75rem;
+    margin-bottom: 3rem;
+  }
+  .tag {
+    font-family: 'Space Mono', monospace;
+    font-size: 0.72rem;
+    letter-spacing: 0.1em;
+    padding: 0.45em 1.1em;
+    border: 1px solid var(--border);
+    border-radius: 2px;
+    color: var(--muted);
+    background: var(--surface);
+    text-transform: uppercase;
+    transition: border-color 0.2s, color 0.2s;
+  }
+  .tag:hover { border-color: var(--accent); color: var(--accent); }
+
+  .hero-ctas { display: flex; gap: 1rem; flex-wrap: wrap; }
+  .btn-primary {
+    font-family: 'Space Mono', monospace;
+    font-size: 0.8rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    padding: 0.85em 2em;
+    background: var(--accent);
+    color: #0a0a0f;
+    text-decoration: none;
+    border: none;
+    cursor: none;
+    transition: opacity 0.2s, transform 0.2s;
+  }
+  .btn-primary:hover { opacity: 0.85; transform: translateY(-1px); }
+
+  .btn-ghost {
+    font-family: 'Space Mono', monospace;
+    font-size: 0.8rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    padding: 0.85em 2em;
+    border: 1px solid var(--border);
+    color: var(--muted);
+    text-decoration: none;
+    cursor: none;
+    transition: border-color 0.2s, color 0.2s, transform 0.2s;
+  }
+  .btn-ghost:hover { border-color: var(--accent); color: var(--accent); transform: translateY(-1px); }
+
+  .hero-scroll {
+    position: absolute; bottom: 3rem; right: 3rem;
+    font-family: 'Space Mono', monospace;
+    font-size: 0.7rem;
+    color: var(--muted);
+    letter-spacing: 0.1em;
+    writing-mode: vertical-rl;
+    display: flex; align-items: center; gap: 0.75rem;
+  }
+  .hero-scroll::after {
+    content: '';
+    display: block;
+    width: 1px; height: 60px;
+    background: linear-gradient(to bottom, var(--muted), transparent);
+  }
+
+  /* Sections */
+  section { padding: 6rem 3rem; }
+  .section-header {
+    display: flex; align-items: center; gap: 1.5rem;
+    margin-bottom: 4rem;
+  }
+  .section-num {
+    font-family: 'Space Mono', monospace;
+    font-size: 0.75rem;
+    color: var(--accent);
+    letter-spacing: 0.15em;
+  }
+  .section-line { flex: 1; height: 1px; background: var(--border); max-width: 80px; }
+  h2 {
+    font-size: clamp(2rem, 4vw, 3.2rem);
+    font-weight: 800;
+    letter-spacing: -0.02em;
+    line-height: 1.1;
+  }
+
+  /* Projects — main feature */
+  .projects-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.5px;
+    background: var(--border);
+  }
+  .project-card {
+    background: var(--surface);
+    padding: 2.5rem;
+    position: relative;
+    overflow: hidden;
+    transition: background 0.3s;
+    cursor: none;
+  }
+  .project-card:hover { background: var(--surface2); }
+  .project-card.featured {
+    grid-column: 1 / -1;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 3rem;
+    align-items: center;
+    background: var(--surface2);
+  }
+  .project-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0;
+    width: 3px; height: 0;
+    background: var(--accent);
+    transition: height 0.4s ease;
+  }
+  .project-card:hover::before { height: 100%; }
+
+  .project-meta {
+    font-family: 'Space Mono', monospace;
+    font-size: 0.7rem;
+    color: var(--muted);
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    margin-bottom: 1rem;
+    display: flex; align-items: center; gap: 0.75rem;
+  }
+  .project-year {
+    background: rgba(0,229,160,0.1);
+    color: var(--accent);
+    padding: 0.2em 0.7em;
+    border-radius: 2px;
+  }
+
+  .project-title {
+    font-size: 1.5rem;
+    font-weight: 800;
+    letter-spacing: -0.01em;
+    margin-bottom: 1rem;
+    line-height: 1.2;
+  }
+  .project-featured-title {
+    font-size: clamp(1.8rem, 3.5vw, 2.8rem);
+    font-weight: 800;
+    letter-spacing: -0.02em;
+    margin-bottom: 1.25rem;
+    line-height: 1.1;
+  }
+
+  .project-desc {
+    color: var(--muted);
+    font-size: 0.95rem;
+    line-height: 1.7;
+    margin-bottom: 1.5rem;
+  }
+
+  .project-stack {
+    display: flex; flex-wrap: wrap; gap: 0.5rem;
+    margin-top: 1.5rem;
+  }
+  .stack-badge {
+    font-family: 'Space Mono', monospace;
+    font-size: 0.65rem;
+    letter-spacing: 0.1em;
+    padding: 0.3em 0.8em;
+    background: rgba(123,94,167,0.12);
+    border: 1px solid rgba(123,94,167,0.25);
+    color: #a88bcf;
+    border-radius: 2px;
+    text-transform: uppercase;
+  }
+
+  .project-visual {
+    aspect-ratio: 4/3;
+    background: var(--bg);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    display: flex; align-items: center; justify-content: center;
+    position: relative;
+    overflow: hidden;
+  }
+  .project-visual svg { width: 100%; height: 100%; }
+
+  /* Skills */
+  .skills-layout {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 1px;
+    background: var(--border);
+  }
+  .skill-group {
+    background: var(--surface);
+    padding: 2rem;
+  }
+  .skill-group-title {
+    font-family: 'Space Mono', monospace;
+    font-size: 0.72rem;
+    color: var(--accent);
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    margin-bottom: 1.5rem;
+    display: flex; align-items: center; gap: 0.75rem;
+  }
+  .skill-group-title::before {
+    content: '//';
+    color: var(--muted);
+  }
+  .skill-item {
+    display: flex; align-items: center; justify-content: space-between;
+    margin-bottom: 1rem;
+    font-size: 0.9rem;
+  }
+  .skill-name { color: var(--text); }
+  .skill-bar {
+    width: 80px; height: 3px;
+    background: var(--border);
+    border-radius: 0;
+    overflow: hidden;
+  }
+  .skill-fill {
+    height: 100%;
+    background: var(--accent);
+    border-radius: 0;
+    transform-origin: left;
+    animation: grow 1.2s cubic-bezier(.22,1,.36,1) forwards;
+    transform: scaleX(0);
+  }
+  @keyframes grow { to { transform: scaleX(1); } }
+
+  /* Experience */
+  .timeline { position: relative; padding-left: 2rem; }
+  .timeline::before {
+    content: '';
+    position: absolute; left: 0; top: 0; bottom: 0;
+    width: 1px; background: var(--border);
+  }
+  .timeline-item {
+    position: relative;
+    margin-bottom: 3rem;
+    padding-left: 2rem;
+  }
+  .timeline-dot {
+    position: absolute;
+    left: -2.5rem; top: 0.4rem;
+    width: 10px; height: 10px;
+    border-radius: 50%;
+    background: var(--accent);
+    box-shadow: 0 0 0 4px rgba(0,229,160,0.15);
+  }
+  .timeline-period {
+    font-family: 'Space Mono', monospace;
+    font-size: 0.72rem;
+    color: var(--muted);
+    letter-spacing: 0.1em;
+    margin-bottom: 0.5rem;
+  }
+  .timeline-role {
+    font-size: 1.2rem;
+    font-weight: 700;
+    margin-bottom: 0.25rem;
+  }
+  .timeline-company {
+    font-size: 0.9rem;
+    color: var(--accent);
+    margin-bottom: 1rem;
+  }
+  .timeline-points { list-style: none; }
+  .timeline-points li {
+    font-size: 0.9rem;
+    color: var(--muted);
+    line-height: 1.6;
+    padding: 0.3rem 0;
+    padding-left: 1.25rem;
+    position: relative;
+  }
+  .timeline-points li::before {
+    content: '→';
+    position: absolute; left: 0;
+    color: var(--accent);
+    font-size: 0.75rem;
+  }
+
+  /* About */
+  .about-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 4rem;
+    align-items: start;
+  }
+  .about-text {
+    font-size: 1.05rem;
+    color: var(--muted);
+    line-height: 1.8;
+  }
+  .about-text strong { color: var(--text); }
+  .stat-list { list-style: none; }
+  .stat-item {
+    border-top: 1px solid var(--border);
+    padding: 1.25rem 0;
+    display: flex; justify-content: space-between; align-items: baseline;
+  }
+  .stat-label {
+    font-family: 'Space Mono', monospace;
+    font-size: 0.75rem;
+    color: var(--muted);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+  }
+  .stat-value {
+    font-size: 1.4rem;
+    font-weight: 800;
+    color: var(--accent);
+  }
+
+  /* Contact */
+  .contact-inner {
+    max-width: 700px;
+    margin: 0 auto;
+    text-align: center;
+  }
+  .contact-email {
+    font-size: clamp(1.4rem, 4vw, 2.5rem);
+    font-weight: 800;
+    letter-spacing: -0.02em;
+    color: var(--text);
+    text-decoration: none;
+    display: inline-block;
+    position: relative;
+    transition: color 0.3s;
+  }
+  .contact-email::after {
+    content: '';
+    position: absolute;
+    bottom: -4px; left: 0; right: 0;
+    height: 2px;
+    background: var(--accent);
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 0.4s ease;
+  }
+  .contact-email:hover { color: var(--accent); }
+  .contact-email:hover::after { transform: scaleX(1); }
+
+  .contact-meta {
+    font-family: 'Space Mono', monospace;
+    font-size: 0.8rem;
+    color: var(--muted);
+    margin-top: 1rem;
+    letter-spacing: 0.1em;
+  }
+
+  /* Footer */
+  footer {
+    padding: 2rem 3rem;
+    border-top: 1px solid var(--border);
+    display: flex; justify-content: space-between; align-items: center;
+    font-family: 'Space Mono', monospace;
+    font-size: 0.72rem;
+    color: var(--muted);
+  }
+  .footer-accent { color: var(--accent); }
+
+  /* Responsive */
+  @media (max-width: 768px) {
+    nav { padding: 1rem 1.5rem; }
+    .nav-links { gap: 1.25rem; }
+    section { padding: 4rem 1.5rem; }
+    .hero { padding: 7rem 1.5rem 3rem; }
+    .projects-grid { grid-template-columns: 1fr; }
+    .project-card.featured { grid-template-columns: 1fr; gap: 2rem; }
+    .about-grid { grid-template-columns: 1fr; gap: 2rem; }
+    h2 { font-size: 2rem; }
+    footer { flex-direction: column; gap: 0.75rem; text-align: center; }
+  }
+
+  /* Reveal animation */
+  .reveal { opacity: 0; transform: translateY(28px); transition: opacity 0.7s ease, transform 0.7s ease; }
+  .reveal.visible { opacity: 1; transform: none; }
+</style>
+</head>
+<body>
+
+<div class="cursor" id="cursor"></div>
+<div class="cursor-ring" id="cursorRing"></div>
+
+<nav>
+  <a href="#" class="nav-logo">LRS // Portfolio</a>
+  <ul class="nav-links">
+    <li><a href="#projects">Projets</a></li>
+    <li><a href="#skills">Compétences</a></li>
+    <li><a href="#experience">Parcours</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+</nav>
+
+<!-- ══════ HERO ══════ -->
+<section class="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-grid"></div>
+  <div class="hero-content">
+    <div class="hero-label">Infrastructure Engineer &amp; VoIP Specialist</div>
+    <h1>
+      <span class="name-dim">Louis René</span><br>
+      <span class="name-accent">Salla</span>
+    </h1>
+    <p class="hero-tagline">
+      Spécialiste en convergence numérique — je conçois des infrastructures IT robustes, 
+      déploie des systèmes VoIP et unifie les solutions d'entreprise pour maximiser la productivité.
+    </p>
+    <div class="hero-tags">
+      <span class="tag">Linux / Proxmox</span>
+      <span class="tag">VoIP – Asterisk / 3CX</span>
+      <span class="tag">Virtualisation</span>
+      <span class="tag">ERP / CRM</span>
+      <span class="tag">Cybersécurité</span>
+      <span class="tag">Python · Bash</span>
+    </div>
+    <div class="hero-ctas">
+      <a href="#projects" class="btn-primary">Voir mes projets ↓</a>
+      <a href="#contact" class="btn-ghost">Me contacter</a>
+    </div>
+  </div>
+  <div class="hero-scroll">Scroll</div>
+</section>
+
+<!-- ══════ PROJECTS ══════ -->
+<section id="projects">
+  <div class="section-header reveal">
+    <span class="section-num">01</span>
+    <div class="section-line"></div>
+    <h2>Projets Techniques</h2>
+  </div>
+
+  <div class="projects-grid">
+
+    <!-- Featured -->
+    <div class="project-card featured reveal">
+      <div>
+        <div class="project-meta">
+          <span class="project-year">Juin 2025</span>
+          <span>Projet phare</span>
+        </div>
+        <h3 class="project-featured-title">Déploiement<br>Serveur VoIP<br><span style="color:var(--accent)">ViciDial</span></h3>
+        <p class="project-desc">
+          Installation et configuration complète de ViciBox / Asterisk via Proxmox VE 
+          pour le centre d'appel <strong style="color:var(--text)">Wee Call Center</strong>. 
+          Mise en place d'une infrastructure téléphonique haute disponibilité avec 
+          gestion des ressources, sauvegardes automatisées et plan de maintenance préventive.
+        </p>
+        <div class="project-stack">
+          <span class="stack-badge">ViciDial</span>
+          <span class="stack-badge">Asterisk</span>
+          <span class="stack-badge">Proxmox VE</span>
+          <span class="stack-badge">ViciBox</span>
+          <span class="stack-badge">Linux</span>
+        </div>
+      </div>
+      <div class="project-visual">
+        <svg viewBox="0 0 420 300" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <!-- Background grid -->
+          <defs>
+            <pattern id="grid" width="30" height="30" patternUnits="userSpaceOnUse">
+              <path d="M 30 0 L 0 0 0 30" fill="none" stroke="rgba(0,229,160,0.06)" stroke-width="1"/>
+            </pattern>
+          </defs>
+          <rect width="420" height="300" fill="url(#grid)"/>
+
+          <!-- Proxmox server -->
+          <rect x="20" y="90" width="110" height="70" rx="4" fill="rgba(0,229,160,0.08)" stroke="rgba(0,229,160,0.3)" stroke-width="1"/>
+          <text x="75" y="122" text-anchor="middle" fill="#00e5a0" font-family="Space Mono, monospace" font-size="9" letter-spacing="0.08em">PROXMOX VE</text>
+          <text x="75" y="138" text-anchor="middle" fill="rgba(0,229,160,0.5)" font-family="Space Mono, monospace" font-size="8">Hyperviseur</text>
+          <!-- Server slots -->
+          <rect x="30" y="148" width="20" height="5" rx="1" fill="rgba(0,229,160,0.3)"/>
+          <rect x="54" y="148" width="20" height="5" rx="1" fill="rgba(0,229,160,0.3)"/>
+          <rect x="78" y="148" width="20" height="5" rx="1" fill="rgba(0,229,160,0.3)"/>
+
+          <!-- VM Asterisk/ViciBox -->
+          <rect x="170" y="40" width="100" height="55" rx="4" fill="rgba(229,92,0,0.08)" stroke="rgba(229,92,0,0.35)" stroke-width="1"/>
+          <text x="220" y="63" text-anchor="middle" fill="#e55c00" font-family="Space Mono, monospace" font-size="9" letter-spacing="0.06em">ASTERISK</text>
+          <text x="220" y="78" text-anchor="middle" fill="rgba(229,92,0,0.6)" font-family="Space Mono, monospace" font-size="8">ViciBox VM</text>
+
+          <!-- VM ViciDial -->
+          <rect x="170" y="120" width="100" height="55" rx="4" fill="rgba(123,94,167,0.1)" stroke="rgba(123,94,167,0.35)" stroke-width="1"/>
+          <text x="220" y="143" text-anchor="middle" fill="#a88bcf" font-family="Space Mono, monospace" font-size="9" letter-spacing="0.06em">VICIDIAL</text>
+          <text x="220" y="158" text-anchor="middle" fill="rgba(123,94,167,0.6)" font-family="Space Mono, monospace" font-size="8">Call Center App</text>
+
+          <!-- Call Center phones -->
+          <rect x="320" y="55" width="80" height="30" rx="4" fill="rgba(0,229,160,0.05)" stroke="rgba(0,229,160,0.2)" stroke-width="1"/>
+          <text x="360" y="74" text-anchor="middle" fill="rgba(0,229,160,0.5)" font-family="Space Mono, monospace" font-size="8">Agent 01</text>
+          <rect x="320" y="100" width="80" height="30" rx="4" fill="rgba(0,229,160,0.05)" stroke="rgba(0,229,160,0.2)" stroke-width="1"/>
+          <text x="360" y="119" text-anchor="middle" fill="rgba(0,229,160,0.5)" font-family="Space Mono, monospace" font-size="8">Agent 02</text>
+          <rect x="320" y="145" width="80" height="30" rx="4" fill="rgba(0,229,160,0.05)" stroke="rgba(0,229,160,0.2)" stroke-width="1"/>
+          <text x="360" y="164" text-anchor="middle" fill="rgba(0,229,160,0.5)" font-family="Space Mono, monospace" font-size="8">Agent 03</text>
+
+          <!-- Arrows -->
+          <line x1="130" y1="120" x2="168" y2="75" stroke="rgba(0,229,160,0.4)" stroke-width="1.5" stroke-dasharray="4,3"/>
+          <line x1="130" y1="130" x2="168" y2="148" stroke="rgba(0,229,160,0.4)" stroke-width="1.5" stroke-dasharray="4,3"/>
+          <line x1="270" y1="70" x2="318" y2="70" stroke="rgba(229,92,0,0.4)" stroke-width="1.5" stroke-dasharray="4,3"/>
+          <line x1="270" y1="148" x2="318" y2="115" stroke="rgba(123,94,167,0.4)" stroke-width="1.5" stroke-dasharray="4,3"/>
+          <line x1="270" y1="148" x2="318" y2="158" stroke="rgba(123,94,167,0.4)" stroke-width="1.5" stroke-dasharray="4,3"/>
+
+          <!-- Status indicators -->
+          <circle cx="135" cy="102" r="4" fill="rgba(0,229,160,0.8)">
+            <animate attributeName="opacity" values="1;0.3;1" dur="2s" repeatCount="indefinite"/>
+          </circle>
+          <text x="143" y="106" fill="rgba(0,229,160,0.7)" font-family="Space Mono, monospace" font-size="8">LIVE</text>
+        </svg>
+      </div>
+    </div>
+
+    <!-- Project 2 -->
+    <div class="project-card reveal">
+      <div class="project-meta">
+        <span class="project-year">Mars 2024</span>
+        <span>VoIP / Téléphonie</span>
+      </div>
+      <h3 class="project-title">Déploiement 3CX<br>On-Premise</h3>
+      <p class="project-desc">
+        Installation et configuration de 3CX via Proxmox VE pour le Wee Call Center. 
+        Maintenance continue, gestion des ressources et supervision des sauvegardes.
+      </p>
+      <div class="project-stack">
+        <span class="stack-badge">3CX</span>
+        <span class="stack-badge">Proxmox VE</span>
+        <span class="stack-badge">SIP Trunking</span>
+        <span class="stack-badge">Linux</span>
+      </div>
+    </div>
+
+    <!-- Project 3 -->
+    <div class="project-card reveal">
+      <div class="project-meta">
+        <span class="project-year">Jan 2024 – Présent</span>
+        <span>Infrastructure</span>
+      </div>
+      <h3 class="project-title">Infrastructure<br>de Virtualisation</h3>
+      <p class="project-desc">
+        Déploiement d'un cluster Proxmox VE hébergeant plusieurs VMs critiques : 
+        monitoring Zabbix, ERP Dolibarr &amp; Odoo, messagerie Mattermost. 
+        Gestion complète du cycle de vie des serveurs.
+      </p>
+      <div class="project-stack">
+        <span class="stack-badge">Proxmox VE</span>
+        <span class="stack-badge">Zabbix</span>
+        <span class="stack-badge">Odoo</span>
+        <span class="stack-badge">Dolibarr</span>
+        <span class="stack-badge">Mattermost</span>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Project timeline sub-items -->
+  <div style="margin-top:2rem; background:var(--surface); padding:2rem; border-left:3px solid var(--accent2);" class="reveal">
+    <p style="font-family:'Space Mono',monospace;font-size:0.72rem;color:var(--accent2);letter-spacing:0.12em;margin-bottom:1rem;text-transform:uppercase;">// Déploiements VM — Infrastructure Proxmox</p>
+    <div style="display:flex;flex-wrap:wrap;gap:1rem;">
+      <div style="background:var(--bg);padding:0.75rem 1.25rem;border:1px solid var(--border);flex:1;min-width:130px;">
+        <div style="font-family:'Space Mono',monospace;font-size:0.65rem;color:var(--muted);letter-spacing:0.1em;margin-bottom:0.25rem;">Fév. 2024</div>
+        <div style="font-weight:700;font-size:0.9rem;">Zabbix</div>
+        <div style="font-size:0.8rem;color:var(--muted)">Monitoring réseau</div>
+      </div>
+      <div style="background:var(--bg);padding:0.75rem 1.25rem;border:1px solid var(--border);flex:1;min-width:130px;">
+        <div style="font-family:'Space Mono',monospace;font-size:0.65rem;color:var(--muted);letter-spacing:0.1em;margin-bottom:0.25rem;">Avr. 2024</div>
+        <div style="font-weight:700;font-size:0.9rem;">Dolibarr</div>
+        <div style="font-size:0.8rem;color:var(--muted)">ERP / CRM</div>
+      </div>
+      <div style="background:var(--bg);padding:0.75rem 1.25rem;border:1px solid var(--border);flex:1;min-width:130px;">
+        <div style="font-family:'Space Mono',monospace;font-size:0.65rem;color:var(--muted);letter-spacing:0.1em;margin-bottom:0.25rem;">Mai 2024</div>
+        <div style="font-weight:700;font-size:0.9rem;">Mattermost</div>
+        <div style="font-size:0.8rem;color:var(--muted)">Messagerie interne</div>
+      </div>
+      <div style="background:var(--bg);padding:0.75rem 1.25rem;border:1px solid var(--border);flex:1;min-width:130px;">
+        <div style="font-family:'Space Mono',monospace;font-size:0.65rem;color:var(--muted);letter-spacing:0.1em;margin-bottom:0.25rem;">Jan. 2025</div>
+        <div style="font-weight:700;font-size:0.9rem;">Odoo</div>
+        <div style="font-size:0.8rem;color:var(--muted)">ERP complet</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════ SKILLS ══════ -->
+<section id="skills" style="background:var(--surface);">
+  <div class="section-header reveal">
+    <span class="section-num">02</span>
+    <div class="section-line"></div>
+    <h2>Compétences</h2>
+  </div>
+  <div class="skills-layout">
+    <div class="skill-group reveal">
+      <div class="skill-group-title">Systèmes</div>
+      <div class="skill-item"><span class="skill-name">Linux (Ubuntu/Debian)</span><div class="skill-bar"><div class="skill-fill" style="width:90%;animation-delay:0.1s"></div></div></div>
+      <div class="skill-item"><span class="skill-name">CentOS / RedHat</span><div class="skill-bar"><div class="skill-fill" style="width:80%;animation-delay:0.2s"></div></div></div>
+      <div class="skill-item"><span class="skill-name">Administration serveur</span><div class="skill-bar"><div class="skill-fill" style="width:92%;animation-delay:0.3s"></div></div></div>
+    </div>
+    <div class="skill-group reveal">
+      <div class="skill-group-title">Virtualisation</div>
+      <div class="skill-item"><span class="skill-name">Proxmox VE</span><div class="skill-bar"><div class="skill-fill" style="width:95%;animation-delay:0.1s"></div></div></div>
+      <div class="skill-item"><span class="skill-name">Gestion VMs Linux</span><div class="skill-bar"><div class="skill-fill" style="width:90%;animation-delay:0.2s"></div></div></div>
+      <div class="skill-item"><span class="skill-name">Sauvegarde / HA</span><div class="skill-bar"><div class="skill-fill" style="width:85%;animation-delay:0.3s"></div></div></div>
+    </div>
+    <div class="skill-group reveal">
+      <div class="skill-group-title">VoIP</div>
+      <div class="skill-item"><span class="skill-name">Asterisk</span><div class="skill-bar"><div class="skill-fill" style="width:88%;animation-delay:0.1s"></div></div></div>
+      <div class="skill-item"><span class="skill-name">3CX</span><div class="skill-bar"><div class="skill-fill" style="width:85%;animation-delay:0.2s"></div></div></div>
+      <div class="skill-item"><span class="skill-name">ViciDial</span><div class="skill-bar"><div class="skill-fill" style="width:80%;animation-delay:0.3s"></div></div></div>
+    </div>
+    <div class="skill-group reveal">
+      <div class="skill-group-title">Réseaux</div>
+      <div class="skill-item"><span class="skill-name">TCP/IP · DNS · HTTP</span><div class="skill-bar"><div class="skill-fill" style="width:88%;animation-delay:0.1s"></div></div></div>
+      <div class="skill-item"><span class="skill-name">Routage / Configuration</span><div class="skill-bar"><div class="skill-fill" style="width:82%;animation-delay:0.2s"></div></div></div>
+      <div class="skill-item"><span class="skill-name">Cybersécurité</span><div class="skill-bar"><div class="skill-fill" style="width:80%;animation-delay:0.3s"></div></div></div>
+    </div>
+    <div class="skill-group reveal">
+      <div class="skill-group-title">Scripting</div>
+      <div class="skill-item"><span class="skill-name">Python</span><div class="skill-bar"><div class="skill-fill" style="width:78%;animation-delay:0.1s"></div></div></div>
+      <div class="skill-item"><span class="skill-name">Bash</span><div class="skill-bar"><div class="skill-fill" style="width:85%;animation-delay:0.2s"></div></div></div>
+      <div class="skill-item"><span class="skill-name">PowerShell</span><div class="skill-bar"><div class="skill-fill" style="width:70%;animation-delay:0.3s"></div></div></div>
+    </div>
+    <div class="skill-group reveal">
+      <div class="skill-group-title">ERP / CRM</div>
+      <div class="skill-item"><span class="skill-name">Odoo</span><div class="skill-bar"><div class="skill-fill" style="width:80%;animation-delay:0.1s"></div></div></div>
+      <div class="skill-item"><span class="skill-name">Dolibarr</span><div class="skill-bar"><div class="skill-fill" style="width:82%;animation-delay:0.2s"></div></div></div>
+      <div class="skill-item"><span class="skill-name">Zabbix (Monitoring)</span><div class="skill-bar"><div class="skill-fill" style="width:76%;animation-delay:0.3s"></div></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════ EXPERIENCE ══════ -->
+<section id="experience">
+  <div class="section-header reveal">
+    <span class="section-num">03</span>
+    <div class="section-line"></div>
+    <h2>Parcours</h2>
+  </div>
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:4rem;" class="exp-grid">
+    <div>
+      <p style="font-family:'Space Mono',monospace;font-size:0.72rem;color:var(--accent);letter-spacing:0.15em;margin-bottom:2rem;text-transform:uppercase;">// Expérience professionnelle</p>
+      <div class="timeline reveal">
+        <div class="timeline-item">
+          <div class="timeline-dot"></div>
+          <div class="timeline-period">Septembre 2021 — Présent · CDI</div>
+          <div class="timeline-role">Responsable du Service Informatique</div>
+          <div class="timeline-company">Wee Groupe Sarl — Yaoundé, Cameroun</div>
+          <ul class="timeline-points">
+            <li>Supervision de l'ensemble des opérations systèmes et réseaux</li>
+            <li>Management d'équipe IT et attribution des responsabilités</li>
+            <li>Déploiement et maintenance des infrastructures critiques</li>
+            <li>Mise en œuvre de la politique de protection des données</li>
+            <li>Gestion des relations fournisseurs et partenaires IT</li>
+          </ul>
+        </div>
+        <div class="timeline-item">
+          <div class="timeline-dot" style="background:var(--accent2);box-shadow:0 0 0 4px rgba(123,94,167,0.15)"></div>
+          <div class="timeline-period">Juin 2025 — Présent · Saisonnier</div>
+          <div class="timeline-role">Formateur T.I.C</div>
+          <div class="timeline-company">CFTI-UPAIL — Douala, Cameroun</div>
+          <ul class="timeline-points">
+            <li>Formation de jeunes Agripreneurs aux outils TIC</li>
+            <li>Amélioration de la productivité et visibilité commerciale numérique</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <div>
+      <p style="font-family:'Space Mono',monospace;font-size:0.72rem;color:var(--accent);letter-spacing:0.15em;margin-bottom:2rem;text-transform:uppercase;">// Formation académique</p>
+      <div class="timeline reveal">
+        <div class="timeline-item">
+          <div class="timeline-dot" style="background:var(--accent3);box-shadow:0 0 0 4px rgba(229,92,0,0.15)"></div>
+          <div class="timeline-period">Juillet 2020</div>
+          <div class="timeline-role">Licence Sciences de l'Ingénieur</div>
+          <div class="timeline-company">Télécommunications · UPAC, Yaoundé</div>
+        </div>
+        <div class="timeline-item">
+          <div class="timeline-dot" style="background:var(--muted)"></div>
+          <div class="timeline-period">Juin 2019</div>
+          <div class="timeline-role">BTS Télécommunications</div>
+          <div class="timeline-company">ISTAG — Yaoundé, Cameroun</div>
+        </div>
+        <div class="timeline-item">
+          <div class="timeline-dot" style="background:var(--muted)"></div>
+          <div class="timeline-period">Juin 2016</div>
+          <div class="timeline-role">Baccalauréat C</div>
+          <div class="timeline-company">Lycée de Ngoa-Ekellé, Yaoundé</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════ ABOUT ══════ -->
+<section id="about" style="background:var(--surface);">
+  <div class="section-header reveal">
+    <span class="section-num">04</span>
+    <div class="section-line"></div>
+    <h2>À propos</h2>
+  </div>
+  <div class="about-grid">
+    <div>
+      <p class="about-text reveal">
+        Spécialiste en <strong>convergence numérique</strong> basé à Yaoundé, Cameroun, 
+        je construis et gère des infrastructures IT qui font tourner les entreprises. 
+        Mon expertise couvre la <strong>virtualisation d'entreprise</strong>, 
+        la <strong>téléphonie IP</strong> et le déploiement de solutions <strong>ERP/CRM</strong>.
+      </p>
+      <p class="about-text reveal" style="margin-top:1.5rem;">
+        En 4 ans de responsabilité IT chez Wee Groupe, j'ai bâti une infrastructure 
+        complète from scratch : cluster Proxmox avec 5+ VMs en production, 
+        deux systèmes VoIP pour centre d'appel, et une suite applicative unifiée 
+        (ERP, monitoring, messagerie).
+      </p>
+    </div>
+    <div class="reveal">
+      <ul class="stat-list">
+        <li class="stat-item">
+          <span class="stat-label">Années d'expérience</span>
+          <span class="stat-value">4+</span>
+        </li>
+        <li class="stat-item">
+          <span class="stat-label">VMs en production</span>
+          <span class="stat-value">5+</span>
+        </li>
+        <li class="stat-item">
+          <span class="stat-label">Systèmes VoIP déployés</span>
+          <span class="stat-value">2</span>
+        </li>
+        <li class="stat-item">
+          <span class="stat-label">Localisation</span>
+          <span class="stat-value" style="font-size:1rem;">Yaoundé, CM</span>
+        </li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- ══════ CONTACT ══════ -->
+<section id="contact">
+  <div class="contact-inner reveal">
+    <div class="hero-label" style="justify-content:center;">Disponible pour de nouvelles opportunités</div>
+    <h2 style="font-size:clamp(1.8rem,4vw,3rem);text-align:center;margin-bottom:2rem;">Travaillons ensemble</h2>
+    <a href="mailto:slouisrene@gmail.com" class="contact-email">slouisrene@gmail.com</a>
+    <p class="contact-meta" style="margin-top:2rem;">
+      +237 698 16 47 22 &nbsp;·&nbsp; Yaoundé-Mimboman, Cameroun
+    </p>
+    <div style="margin-top:2.5rem;">
+      <a href="mailto:slouisrene@gmail.com" class="btn-primary">Envoyer un message</a>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <span>© 2025 <span class="footer-accent">Louis René Salla</span></span>
+  <span style="font-family:'Space Mono',monospace;font-size:0.65rem;letter-spacing:0.1em;">
+    SYSADMIN · VOIP · INFRASTRUCTURE
+  </span>
+  <span>Yaoundé, CM</span>
+</footer>
+
+<script>
+  const cursor = document.getElementById('cursor');
+  const ring = document.getElementById('cursorRing');
+  let mx = 0, my = 0, rx = 0, ry = 0;
+  document.addEventListener('mousemove', e => { mx = e.clientX; my = e.clientY; });
+  function animCursor() {
+    cursor.style.left = mx + 'px';
+    cursor.style.top = my + 'px';
+    rx += (mx - rx) * 0.12;
+    ry += (my - ry) * 0.12;
+    ring.style.left = rx + 'px';
+    ring.style.top = ry + 'px';
+    requestAnimationFrame(animCursor);
+  }
+  animCursor();
+
+  const reveals = document.querySelectorAll('.reveal');
+  const obs = new IntersectionObserver(entries => {
+    entries.forEach((e, i) => {
+      if (e.isIntersecting) {
+        setTimeout(() => e.target.classList.add('visible'), i * 80);
+      }
+    });
+  }, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
+  reveals.forEach(el => obs.observe(el));
+
+  // Responsive grid for experience
+  function checkGrid() {
+    const g = document.querySelector('.exp-grid');
+    if (g) g.style.gridTemplateColumns = window.innerWidth < 768 ? '1fr' : '1fr 1fr';
+  }
+  checkGrid();
+  window.addEventListener('resize', checkGrid);
+</script>
+</body>
+</html>
